@@ -32,7 +32,7 @@ class SmartLevenshtein extends UDF {
         }
         String str1 = col1.toString();
         String str2 = col2.toString();
-        int max_dist = Integer.parseInt(col3);
+        int max_dist = Integer.parseInt(col3.toString());
         int[][] distance = new int[str1.length() + 1][str2.length() + 1];
 
         for (int i = 0; i <= str1.length(); i++)
@@ -46,8 +46,8 @@ class SmartLevenshtein extends UDF {
                         distance[i - 1][j] + 1,
                         distance[i][j - 1] + 1,
                         distance[i - 1][j - 1]+ ((str1.charAt(i - 1) == str2.charAt(j - 1)) ? 0 : 1));
-                if distance[i][j] >= max_dist {
-                    return new IntWritable(max_dist);
+                if(distance[i][j] > max_dist) {
+                    return new IntWritable(Math.max(str1.length(), str2.length()) + 1);
                 }
             }
         }
